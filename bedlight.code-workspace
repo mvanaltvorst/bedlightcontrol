@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"terminal.integrated.env.linux": {
+			"PATH": "/home/mox/.platformio/penv/bin:/home/mox/.platformio/penv:/home/mox/.nvm/versions/node/v12.2.0/bin:/home/mox/esp/xtensa-lx106-elf/bin:/home/mox/esp/xtensa-esp32-elf/bin:/home/mox/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/opt/cuda/bin:/home/mox/.local/share/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin:/home/mox/.gem/ruby/2.6.0/bin:/home/mox/.yarn/bin",
+			"PLATFORMIO_CALLER": "vscode"
+		}
+	}
+}
