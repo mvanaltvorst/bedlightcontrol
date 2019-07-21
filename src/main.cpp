@@ -92,6 +92,32 @@ void set_bg_color() {
   http_rest_server.send(201);
 }
 
+void set_range() {
+  CRGB newcolor = CRGB(
+    http_rest_server.arg("r").toInt(), 
+    http_rest_server.arg("g").toInt(), 
+    http_rest_server.arg("b").toInt()
+  );
+  int nStart = http_rest_server.arg("ns").toInt();
+  int nEnd   = http_rest_server.arg("ne").toInt();
+  for (int i = nStart; i < nEnd; i++) {
+    hiddenleds[i] = newcolor;
+  }
+  updateLeds();
+  http_rest_server.send(201);
+}
+
+void clear_range() {
+  int nStart = http_rest_server.arg("ns").toInt();
+  int nEnd   = http_rest_server.arg("ne").toInt();
+  for (int i = nStart; i < nEnd; i++) {
+    hiddenleds[i] = bgcolor;
+  }
+  updateLeds();
+  http_rest_server.send(201);
+}
+
+
 void setup() {
   // put your setup code here, to run once:
   delay(1000);
@@ -144,11 +170,72 @@ void setup() {
   http_rest_server.on("/setBgColor", HTTP_POST, set_bg_color);
   http_rest_server.on("/turnOn", HTTP_POST, turnOnService);
   http_rest_server.on("/turnOff", HTTP_POST, turnOffService);
+  http_rest_server.on("/setRange", HTTP_POST, set_range);
+  http_rest_server.on("/clearRange", HTTP_POST, clear_range);
   http_rest_server.begin();
 }
+
+// CRGB HSVtoRGB(int h, double s, double v) {
+//   //this is the algorithm to convert from RGB to HSV
+//   double r=0; 
+//   double g=0; 
+//   double b=0;
+
+//   double hf=h/60.0;
+
+//   int i=(int)floor(h/60.0);
+//   double f = h/60.0 - i;
+//   double pv = v * (1 - s);
+//   double qv = v * (1 - s*f);
+//   double tv = v * (1 - s * (1 - f));
+
+//   switch (i)
+//   {
+//   case 0: //rojo dominante
+//     r = v;
+//     g = tv;
+//     b = pv;
+//     break;
+//   case 1: //verde
+//     r = qv;
+//     g = v;
+//     b = pv;
+//     break;
+//   case 2: 
+//     r = pv;
+//     g = v;
+//     b = tv;
+//     break;
+//   case 3: //azul
+//     r = pv;
+//     g = qv;
+//     b = v;
+//     break;
+//   case 4:
+//     r = tv;
+//     g = pv;
+//     b = v;
+//     break;
+//   case 5: //rojo
+//     r = v;
+//     g = pv;
+//     b = qv;
+//     break;
+//   }
+//   return CRGB(r * 255, g * 255, b * 255);
+// }
+
+// int i = 0;
 
 void loop() {
   // put your main code here, to run repeatedly:
   http_rest_server.handleClient();
   ArduinoOTA.handle();
+
+  // leds[0] = HSVtoRGB(i, 1, 1);
+  // for (int i = NUM_LEDS - 1; i > 0; i--) {
+  //   leds[i] = leds[i-1];
+  // }
+  // FastLED.show();
+  // i = (i + 1) % 360;
 }
